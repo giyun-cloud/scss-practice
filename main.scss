@@ -1,8 +1,70 @@
+.wrap{
+  display: flex;
+  justify-content: space-around;
+}
+
 .container {
   $size: 100px;
   .item {
     width: $size;
     height: $size;
-    background-color: tomato;
+    background-color: orange;
+  }
+}
+
+@mixin circlebox($w:100px,$h:100px,$rad:50%){
+  width: $w;
+  height: $h;
+  border-radius: $rad;
+  background-color: tomato;
+}
+@mixin box($w:100px,$h:100px){
+  width: $w;
+  height: $h;
+  background-color: tomato;
+}
+
+@function boxfencer($w,$h){
+  @return ($w+$h)*2;
+}
+.container {
+  &.circle2 {
+    @include circlebox(130px,150px);
+    background-color: pink;
+  }
+}
+.container {
+  $w:121px;
+  $h:277px;
+  &.box1 {
+    @include box($w:$w,$h:$h);
+    &::after {
+      content: '#{boxfencer($w,$h)}';
+    }
+  }
+  
+}
+.container {
+  $w:200px;
+  $h:300px;
+  &.box2 {
+    @include box($w:$w,$h:$h);
+    background-color: pink;
+    &::after {
+      content: '#{boxfencer($w,$h)}';
+    }
+  }
+}
+
+@mixin content($w:block,$c...){
+  display: $w;
+  content: '#{$c}';
+}
+.container {
+  &.circle1 {
+    @include circlebox();
+    &::after {
+      @include content(block,ab,cd,fg,hi,jz,dragon)
+    }
   }
 }
